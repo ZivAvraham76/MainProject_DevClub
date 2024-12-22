@@ -1,0 +1,29 @@
+.display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 2rem;
+  }
+
+  .mySwiper {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* ממורכז את ה-Swiper במרכז */
+}
+  
+  .card {
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    height: 170px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  
