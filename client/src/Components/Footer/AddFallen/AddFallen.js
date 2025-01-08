@@ -8,8 +8,6 @@ function AddFallen() {
   const [story, setStory] = useState('');
 
 
-
-
   return (
     <div className="add-fallen">
       <h2>Add Fallen</h2>

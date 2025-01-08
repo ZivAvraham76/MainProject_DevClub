@@ -1,29 +1,39 @@
 .display {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    margin: 2rem;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 20px;
+  background-color: #f4f6f8; 
+  border-radius: 10px;
+  padding: 20px;
+}
 
-  .mySwiper {
+.mySwiper {
   width: 100%;
   display: flex;
-  justify-content: center; /* ממורכז את ה-Swiper במרכז */
+  justify-content: center; 
 }
-  
-  .card {
-    text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 1rem;
-    height: 170px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-  }
-  
+
+.card {
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 1rem;
+  height: 170px;
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); 
+  background-color: #ffffff;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #5c5c5c; 
+}

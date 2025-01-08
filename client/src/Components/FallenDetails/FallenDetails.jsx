@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import fallens from '../TempFallen'; 
+import tempfallens from '../TempFallen'; 
 import './FallenDetalis.css'
 import { GiCandleFlame } from "react-icons/gi";
 import { useState } from 'react';
@@ -11,7 +11,7 @@ const FallenDetails = () => {
 
  
   const { id } = useParams(); 
-  const fallen = fallens.find((f) => f.id === parseInt(id));
+  const fallen = tempfallens.find((f) => f.id === parseInt(id));
 
   return (
     <div className='fallen-page'>
@@ -25,6 +25,7 @@ const FallenDetails = () => {
       <h1>{fallen.name}</h1>
       <p><strong>Location:</strong> {fallen.location}</p>
       <p><strong>Date:</strong> {fallen.date}</p>
+      <p><strong>Unit:</strong> {fallen.unit}</p>
       <p><strong>Story:</strong> {fallen.story}</p>
       <img src={fallen.img} alt={fallen.name} />
     </div>
