@@ -1,50 +1,39 @@
-.search-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin: 20px;
-  padding: 20px;
-  background-color: #f9f9f9; /* רקע רך */
-  border: 1px solid #e0e0e0; /* מסגרת עדינה */
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* צל עדין */
+*{
+  z-index: 1;
+
 }
 
-.search-input {
-  width: 200px;
+.search-container {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.search-container input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 14px;
-  background-color: #ffffff; /* רקע לבן */
-  color: #333; /* טקסט כהה */
+  font-size: 16px;
   outline: none;
-  transition: border-color 0.3s ease;
+  width: 400px;
 }
 
-.search-input:focus {
-  border-color: #4a90e2; /* צבע דגש */
-}
-
-.search-button {
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: bold;
-  background-color: black; 
-  color: #ffffff;
+.search-container button {
+  padding: 10px;
+  background-color: rgb(46, 46, 51);
+  color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
 
 .search-button:hover {
-  background-color: #376cab; /* כהה יותר ב-hover */
-  transform: scale(1.05); /* הגדלה קלה */
-}
-
-.search-button:active {
-  background-color: #295082; /* כהה יותר בלחיצה */
-  transform: scale(0.98); /* הקטנה קלה */
+  background-color: #7a7b7b;
 }

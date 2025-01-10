@@ -1,60 +1,31 @@
 import React, { useState } from "react";
-import './Search.css';
+import TempFallen from "../TempFallen"; 
+import './Search.css'
 
-const Search = ({ onSearch }) => {
-  const [filters, setFilters] = useState({
-    name: "",
-    date: "",
-    location: "",
-    unit: "",
-  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({ ...prev, [name]: value }));
+const Search = ({ setFilteredFallens }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = () => {
+    const filtered = TempFallen.filter(fallen =>
+      fallen.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      fallen.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      fallen.unit.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredFallens(filtered); 
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    onSearch(filters); 
-  };
 
   return (
-    <form className="search-container" onSubmit={handleSearch}>
+    <div className="search-container">
       <input
         type="text"
-        name="name"
-        placeholder="Search by Name"
-        value={filters.name}
-        onChange={handleChange}
-        className="search-input"
+        placeholder="Search by Name/Location/Date/Unit"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
       />
-      <input
-        type="date"
-        name="date"
-        placeholder="Search by Date"
-        value={filters.date}
-        onChange={handleChange}
-        className="search-input"
-      />
-      <input
-        type="text"
-        name="location"
-        placeholder="Search by Location"
-        value={filters.location}
-        onChange={handleChange}
-        className="search-input"
-      />
-      <input
-        type="text"
-        name="unit"
-        placeholder="Search by Unit"
-        value={filters.unit}
-        onChange={handleChange}
-        className="search-input"
-      />
-      <button type="submit" className="search-button">Search</button>
-    </form>
+      <button className="search-button" onClick={handleSearch}>Serach</button>
+    </div>
   );
 };
 

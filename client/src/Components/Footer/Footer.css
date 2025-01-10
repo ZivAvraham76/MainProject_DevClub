@@ -22,4 +22,8 @@
     text-decoration: none;
     border-radius: 10px;
   }
+
+  .footer-button:hover{
+    background-color: #7a7b7b;
+  }
   
