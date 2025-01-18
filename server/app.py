@@ -12,9 +12,9 @@ app = Flask(__name__)
 CORS(app)  # Allow requests from the frontend
 
 # Connect to MongoDB
-client = MongoClient("mongodb://localhost:27017/")  # For local MongoDB
-db = client["fallenHeroes"]  # Database name
-collection = db["fallens"]  # Collection name
+client = MongoClient("mongodb+srv://zivavraham76:DM7m4lcN2h4zr5h5@cluster0.mp7ie.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")  # For local MongoDB
+db = client["fallen"]  # Database name
+collection = db["fallen_details"]  # Collection name
 
 # Get all fallens
 @app.route('/fallens', methods=['GET'])
@@ -39,6 +39,23 @@ def add_fallen():
     collection.insert_one(data)
     return jsonify({key: data[key] for key in data if key != '_id'})  # Exclude _id
 
+# Edit a fallen by ID
+@app.route('/fallens/<int:id>', methods=['PUT'])
+def edit_fallen_by_id(id):
+    data = request.get_json()  # Get the JSON payload from the request
+    updated_fallen = collection.find_one_and_update(
+        {"id": id},  # Find the document by ID
+        {"$set": data},  # Update the document with the provided data
+        return_document=True  # Return the updated document
+    )
+
+    if updated_fallen:
+        updated_fallen.pop("_id", None)  # Remove MongoDB's _id before returning
+        return jsonify(updated_fallen)
+    else:
+        return jsonify({"error": "Fallen not found"}), 404
+
+#get quote
 @app.route('/api/quote', methods=['GET'])
 def get_quote():
     try:
