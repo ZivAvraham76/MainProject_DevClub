@@ -9,7 +9,7 @@ const Footer = () => {
       <Link to="/add-fallen" className="footer-button">
         Add Fallen
       </Link>
-      <Link to="/edit-fallen" className="footer-button">
+      <Link to="/update-fallen" className="footer-button">
         Edit Fallen
       </Link>
     </div>
