@@ -1,20 +1,26 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
-import requests
 import os
+from bson import ObjectId
+from werkzeug.utils import secure_filename
 
 from dotenv import load_dotenv
 load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app)  # Allow requests from the frontend
+CORS(app)
+
+# Upload folder configuration
+UPLOAD_FOLDER = './uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Connect to MongoDB
-client = MongoClient("mongodb+srv://zivavraham76:DM7m4lcN2h4zr5h5@cluster0.mp7ie.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-db = client["fallen"]  # Database name
-collection = db["fallen_details"]  # Collection name
+client = MongoClient(os.getenv("MONGO_URI"))
+db = client["fallen"]
+collection = db["fallen_details"]
 
 # Helper function to convert _id to string
 def convert_objectid_to_string(doc):
@@ -27,7 +33,6 @@ def convert_objectid_to_string(doc):
 @app.route('/fallens', methods=['GET'])
 def get_fallens():
     fallens = list(collection.find({}))
-    # Convert _id to string for all documents
     fallens = [convert_objectid_to_string(fallen) for fallen in fallens]
     return jsonify(fallens)
 
@@ -35,11 +40,9 @@ def get_fallens():
 @app.route('/fallens/<string:id>', methods=['GET'])
 def get_fallen_by_id(id):
     try:
-        # Find the document by _id
-        from bson import ObjectId
         fallen = collection.find_one({"_id": ObjectId(id)})
         if fallen:
-            fallen = convert_objectid_to_string(fallen)  # Convert _id to string
+            fallen = convert_objectid_to_string(fallen)
             return jsonify(fallen)
         return jsonify({"error": "Fallen not found"}), 404
     except Exception as e:
@@ -59,20 +62,31 @@ def add_fallen():
 def edit_fallen_by_id(id):
     try:
         from bson import ObjectId
-        data = request.get_json()  # Get the JSON payload from the request
+        if not ObjectId.is_valid(id):
+            return jsonify({"error": "Invalid ID format"}), 400
+
+        data = request.get_json()
+
+        # Remove the `_id` field from the data if it exists
+        if "_id" in data:
+            data.pop("_id")
+
         updated_fallen = collection.find_one_and_update(
             {"_id": ObjectId(id)},  # Find the document by _id
-            {"$set": data},  # Update the document with the provided data
+            {"$set": data},  # Update with the provided data
             return_document=True  # Return the updated document
         )
+
         if updated_fallen:
-            updated_fallen = convert_objectid_to_string(updated_fallen)  # Convert _id to string
-            return jsonify(updated_fallen)
+            updated_fallen = convert_objectid_to_string(updated_fallen)
+            return jsonify(updated_fallen), 200
         else:
             return jsonify({"error": "Fallen not found"}), 404
     except Exception as e:
-        return jsonify({"error": "Invalid ID format", "details": str(e)}), 400
+        return jsonify({"error": "An error occurred", "details": str(e)}), 500
 
+
+# Get a quote
 # Get quote
 @app.route('/api/quote', methods=['GET'])
 def get_quote():
