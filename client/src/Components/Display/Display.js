@@ -36,7 +36,7 @@ function Display() {
             <div className="card">
               <img src={fallen.img} alt={fallen.name} />
               <h3>
-                <Link to={`/fallen/${fallen.id || fallen._id}`}>{fallen.name}</Link> {/* Use `id` or `_id` */}
+                <Link to={`/fallen/${fallen._id}`}>{fallen.name}</Link> {/* Use `id` or `_id` */}
               </h3>
             </div>
           </SwiperSlide>

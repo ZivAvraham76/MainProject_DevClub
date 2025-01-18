@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-//import './FallenDetails.css';
+import './FallenDetails.css'
 import { GiCandleFlame } from "react-icons/gi";
+import { Link } from 'react-router-dom';
 
 const FallenDetails = () => {
   const { id } = useParams(); // Get the fallen ID from the URL
@@ -44,6 +45,9 @@ const FallenDetails = () => {
         <p><strong>Date:</strong> {fallen.date}</p>
         <p><strong>Story:</strong> {fallen.story}</p>
         <img src={fallen.img} alt={fallen.name} />
+        <Link to="/update-fallen" className="edit-button">
+        Edit Fallen
+      </Link>
       </div>
     </div>
   );
