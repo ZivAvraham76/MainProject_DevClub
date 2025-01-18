@@ -45,9 +45,10 @@ const FallenDetails = () => {
         <p><strong>Date:</strong> {fallen.date}</p>
         <p><strong>Story:</strong> {fallen.story}</p>
         <img src={fallen.img} alt={fallen.name} />
-        <Link to="/update-fallen" className="edit-button">
+        <Link to= {`/update-fallen/${fallen._id}`} className="edit-button">
         Edit Fallen
       </Link>
+
       </div>
     </div>
   );

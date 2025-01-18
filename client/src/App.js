@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Navbar from './Components/Navbar/Navbar';
 import Search from './Components/Search/Search';
@@ -10,23 +11,23 @@ import About from './Components/About/About';
 import Contact from './Components/Contact/Contact';
 import FallenDetails from './Components/FallenDetails/FallenDetails';
 import Quote from './Components/Quote/Quote';
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function App() {
-  const [fallens, setFallens] = useState([]); // State to hold data from the API
+  const [fallens, setFallens] = useState([]); // State to hold all data from the API
+  const [filteredFallens, setFilteredFallens] = useState([]); // State to hold filtered data
 
   // Fetch data from MongoDB via Flask API
   useEffect(() => {
     axios.get('http://127.0.0.1:5000/fallens') // Replace with your API URL
       .then((response) => {
         setFallens(response.data); // Update state with fetched data
+        setFilteredFallens(response.data); // Set filtered data to show all fallens by default
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, []);
-  const [filteredFallens, setFilteredFallens] = useState(fallens); 
 
   return (
     <Router>
@@ -57,10 +58,9 @@ function App() {
           />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/fallen/:id" element={<FallenDetails />} />
+          <Route path="/fallens/:id" element={<FallenDetails />} />
           <Route path="/add-fallen" element={<AddFallen />} />
-          <Route path="/update-fallen" element={<UpdateFallen />} />
-
+          <Route path="/update-fallen/:id" element={<UpdateFallen />} />
         </Routes>
       </div>
     </Router>
