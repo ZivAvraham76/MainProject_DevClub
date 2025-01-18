@@ -17,6 +17,13 @@ UPLOAD_FOLDER = './uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+@app.route('/uploads/<filename>', methods=['GET'])
+def serve_file(filename):
+    """
+    UPLOAD_FOLDER
+    """
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 # Connect to MongoDB
 client = MongoClient(os.getenv("MONGO_URI"))
 db = client["fallen"]
@@ -48,14 +55,52 @@ def get_fallen_by_id(id):
     except Exception as e:
         return jsonify({"error": "Invalid ID format", "details": str(e)}), 400
 
+# Ensure the upload folder exists
+UPLOAD_FOLDER = './uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 # Add a new fallen
 @app.route('/fallens', methods=['POST'])
 def add_fallen():
-    data = request.get_json()
-    # Insert the new document and get the inserted_id
-    result = collection.insert_one(data)
-    data["_id"] = str(result.inserted_id)  # Include the inserted _id as a string
-    return jsonify(data)
+    try:
+        # Get form data
+        name = request.form.get('name')
+        location = request.form.get('location')
+        date = request.form.get('date')
+        story = request.form.get('story')
+
+        # Validate the form data
+        if not all([name, location, date, story]):
+            return jsonify({"error": "All fields are required"}), 400
+
+        # Handle the uploaded file
+        file = request.files.get('file')
+        if not file:
+            return jsonify({"error": "Image file is required"}), 400
+
+        # Save the uploaded file securely
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+
+        # Prepare the document to insert into MongoDB
+        fallen = {
+            "name": name,
+            "location": location,
+            "date": date,
+            "story": story,
+            "img": f"/uploads/{filename}"  # Store the relative path to the file
+        }
+
+        # Insert the document into MongoDB
+        result = collection.insert_one(fallen)
+        fallen["_id"] = str(result.inserted_id)  # Convert ObjectId to string
+
+        return jsonify(fallen), 201
+
+    except Exception as e:
+        return jsonify({"error": "Failed to add fallen", "details": str(e)}), 500
 
 # Edit a fallen by ID
 @app.route('/fallens/<string:id>', methods=['PUT'])

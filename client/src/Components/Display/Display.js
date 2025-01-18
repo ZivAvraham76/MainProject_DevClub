@@ -22,7 +22,7 @@ function Display({ fallens }) {
           {fallens.map((fallen) => (
             <SwiperSlide key={fallen.id || fallen._id}> {/* Use `id` or `_id` */}
               <div className="card">
-                <img src={fallen.img} alt={fallen.name} />
+                <img src={`http://localhost:5000${fallen.img}`} alt={fallen.name} />
                 <h3>
                   <Link to={`/fallens/${fallen._id}`}>{fallen.name}</Link> {/* Use `_id` */}
                 </h3>

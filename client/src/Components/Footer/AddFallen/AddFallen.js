@@ -7,7 +7,7 @@ function AddFallen() {
   const [location, setLocation] = useState('');
   const [date, setDate] = useState('');
   const [story, setStory] = useState('');
-  const [file, setFile] = useState(null); // State to handle file uploads
+  const [file, setFile] = useState(null); // Handle file uploads
   const [error, setError] = useState(null); // State to handle errors
   const [successMessage, setSuccessMessage] = useState(null); // State to handle success
   const [isFormVisible, setIsFormVisible] = useState(true); // State to toggle form visibility
@@ -39,7 +39,7 @@ function AddFallen() {
         },
       });
 
-      // Clear form fields on success
+      // Clear form fields and hide the form on success
       setName('');
       setLocation('');
       setDate('');
@@ -62,8 +62,8 @@ function AddFallen() {
       {/* Conditionally render the form */}
       {isFormVisible && (
         <form onSubmit={handleSubmit}>
-          <div>
           <h2>Add Fallen</h2>
+          <div>
             <label>Name :</label>
             <input
               type="text"
