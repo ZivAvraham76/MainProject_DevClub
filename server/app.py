@@ -4,6 +4,8 @@ from pymongo import MongoClient
 import os
 from bson import ObjectId
 from werkzeug.utils import secure_filename
+import requests
+from flask import send_from_directory
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -25,7 +27,7 @@ def serve_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 # Connect to MongoDB
-client = MongoClient(os.getenv("MONGO_URI"))
+client = MongoClient("mongodb+srv://zivavraham76:DM7m4lcN2h4zr5h5@cluster0.mp7ie.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client["fallen"]
 collection = db["fallen_details"]
 
@@ -132,7 +134,6 @@ def edit_fallen_by_id(id):
 
 
 # Get a quote
-# Get quote
 @app.route('/api/quote', methods=['GET'])
 def get_quote():
     try:
