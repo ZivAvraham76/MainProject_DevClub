@@ -20,7 +20,7 @@ const UpdateFallen = () => {
     const fetchFallenData = async () => {
       try {
         // Fetch data directly from the backend using the ID from the URL
-        const response = await axios.get(`http://127.0.0.1:5000/fallens/${id}`);
+        const response = await axios.get(`http://127.0.0.1:5001/fallens/${id}`);
         setFormData(response.data); // Populate form with data
         setMessage(''); // Clear any previous messages
       } catch (error) {
@@ -39,29 +39,45 @@ const UpdateFallen = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage(''); // Reset any previous messages
-
+  
     try {
-      // Exclude _id from the data before sending the request
-      const updatedData = { ...formData };
-      delete updatedData._id;
-
-      // Send a PUT request to update the fallen
-      await axios.put(`http://127.0.0.1:5000/fallens/${id}`, updatedData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const formDataToSend = new FormData();
+  
+      // Append all form data fields
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('location', formData.location);
+      formDataToSend.append('date', formData.date);
+      formDataToSend.append('story', formData.story);
+  
+      // Append the file (if provided)
+      if (formData.photo && formData.photo instanceof File) {
+        formDataToSend.append('file', formData.photo);
+      }
+  
+      // Send the form data directly to the backend
+      const response = await fetch(`http://127.0.0.1:5001/fallens/${id}`, {
+        method: 'PUT',
+        body: formDataToSend,
       });
-      setMessage('Fallen updated successfully!');
-      setIsUpdated(true); // Mark the form as submitted successfully
+  
+      if (response.ok) {
+        setMessage('Fallen updated successfully!');
+        setIsUpdated(true);
+      } else {
+        setMessage('Failed to update fallen. Please try again.');
+      }
     } catch (error) {
       console.error('Failed to update fallen:', error);
       setMessage('Failed to update fallen. Please try again.');
     }
   };
 
+  
   if (isLoading) return <p>Loading data...</p>;
 
   return (
@@ -110,14 +126,13 @@ const UpdateFallen = () => {
             ></textarea>
           </div>
           <div>
-            <label>Image:</label>
+            <label>Photo:</label>
             <input
-              type="text"
-              name="img"
-              placeholder="Image URL"
-              value={formData.img}
-              onChange={handleChange}
-            />
+              type="file"
+              name="photo"
+              accept="image/*"
+              onChange={(e) => setFormData({ ...formData, photo: e.target.files[0] })}
+              />
           </div>
           <button type="submit">Update Fallen</button>
         </form>

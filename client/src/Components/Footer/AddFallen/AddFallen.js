@@ -33,7 +33,7 @@ function AddFallen() {
       formData.append('file', file); // Append the file
 
       // Send a POST request to the backend
-      const response = await axios.post('http://localhost:5000/fallens', formData, {
+      const response = await axios.post('http://localhost:5001/fallens', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

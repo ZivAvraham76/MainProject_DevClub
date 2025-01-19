@@ -20,7 +20,7 @@ function App() {
 
   // Fetch data from MongoDB via Flask API
   useEffect(() => {
-    axios.get('http://127.0.0.1:5000/fallens') // Replace with your API URL
+    axios.get('http://127.0.0.1:5001/fallens') // Replace with your API URL
       .then((response) => {
         setFallens(response.data); // Update state with fetched data
         setFilteredFallens(response.data); // Set filtered data to show all fallens by default
