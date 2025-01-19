@@ -22,7 +22,37 @@ function Display({ fallens }) {
           {fallens.map((fallen) => (
             <SwiperSlide key={fallen.id || fallen._id}> {/* Use `id` or `_id` */}
               <div className="card">
-                <img src={`http://localhost:5000${fallen.img}`} alt={fallen.name} />
+                {/* Use the `img` field directly if it contains a valid URL */}
+                {fallen.img ? (
+                  <img
+                    src={fallen.img} // Use the Cloudinary URL or any valid URL in the `img` field
+                    alt={fallen.name}
+                    style={{
+                      width: '100%',
+                      height: '200px',
+                      objectFit: 'cover',
+                      borderRadius: '10px',
+                      marginBottom: '10px',
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '200px',
+                      backgroundColor: '#ccc',
+                      borderRadius: '10px',
+                      marginBottom: '10px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#666',
+                      fontSize: '14px',
+                    }}
+                  >
+                    No Image Available
+                  </div>
+                )}
                 <h3>
                   <Link to={`/fallens/${fallen._id}`}>{fallen.name}</Link> {/* Use `_id` */}
                 </h3>

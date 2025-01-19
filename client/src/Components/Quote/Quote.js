@@ -8,7 +8,7 @@ const Quote = () => {
   useEffect(() => {
     const fetchQuote = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/quote");
+        const response = await fetch("http://localhost:5001/api/quote");
         const data = await response.json();
         setQuote(data.quote);
       } catch (error) {

@@ -1,11 +1,14 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from pymongo import MongoClient
 import os
 from bson import ObjectId
 from werkzeug.utils import secure_filename
 import requests
-from flask import send_from_directory
+import cloudinary
+import cloudinary.uploader
+from io import BytesIO
+from PIL import Image
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -13,6 +16,17 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)
+print("zivvv")
+print("Cloudinary Cloud Name:", os.getenv('CLOUDINARY_CLOUD_NAME'))
+print("Cloudinary API Key:", os.getenv('CLOUDINARY_API_KEY'))
+print("Cloudinary API Secret:", os.getenv('CLOUDINARY_API_SECRET'))
+# Configure Cloudinary
+cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET')
+)
+
 
 # Upload folder configuration
 UPLOAD_FOLDER = './uploads'
@@ -81,10 +95,9 @@ def add_fallen():
         if not file:
             return jsonify({"error": "Image file is required"}), 400
 
-        # Save the uploaded file securely
-        filename = secure_filename(file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
+        # Upload the image to Cloudinary
+        result = cloudinary.uploader.upload(file, folder="Home")
+        img_url = result.get('secure_url')
 
         # Prepare the document to insert into MongoDB
         fallen = {
@@ -92,7 +105,7 @@ def add_fallen():
             "location": location,
             "date": date,
             "story": story,
-            "img": f"/uploads/{filename}"  # Store the relative path to the file
+            "img": img_url  # Store the Cloudinary image URL
         }
 
         # Insert the document into MongoDB
@@ -108,19 +121,34 @@ def add_fallen():
 @app.route('/fallens/<string:id>', methods=['PUT'])
 def edit_fallen_by_id(id):
     try:
-        from bson import ObjectId
         if not ObjectId.is_valid(id):
             return jsonify({"error": "Invalid ID format"}), 400
 
-        data = request.get_json()
+        # Initialize an empty dictionary for update data
+        update_data = {}
 
-        # Remove the `_id` field from the data if it exists
-        if "_id" in data:
-            data.pop("_id")
+        # Check for JSON data in the request
+        if request.is_json:
+            data = request.get_json()
+            for key in ['name', 'location', 'date', 'story']:
+                if key in data:
+                    update_data[key] = data[key]
+        
+        # Handle the uploaded file
+        file = request.files.get('file')
+        if not file:
+            return jsonify({"error": "Image file is required"}), 400
 
+        # Upload the image to Cloudinary
+        result = cloudinary.uploader.upload(file, folder="Home")
+        img_url = result.get('secure_url')
+
+        update_data['img'] = img_url
+        
+        # Perform the update in MongoDB
         updated_fallen = collection.find_one_and_update(
-            {"_id": ObjectId(id)},  # Find the document by _id
-            {"$set": data},  # Update with the provided data
+            {"_id": ObjectId(id)},  # Find by ID
+            {"$set": update_data},  # Set the updated fields
             return_document=True  # Return the updated document
         )
 
@@ -129,9 +157,80 @@ def edit_fallen_by_id(id):
             return jsonify(updated_fallen), 200
         else:
             return jsonify({"error": "Fallen not found"}), 404
+
     except Exception as e:
+        print(f"[ERROR] An error occurred: {e}")
         return jsonify({"error": "An error occurred", "details": str(e)}), 500
 
+# Define allowed extensions
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    """Check if the uploaded file has a valid extension."""
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/uploadimage', methods=['POST'])
+def upload_image():
+    try:
+        # Check if the file is in the request
+        if 'file' not in request.files:
+            return jsonify({"ok": False, "error": "No image file provided"}), 400
+
+        file = request.files['file']
+        if not file or file.filename == '':
+            return jsonify({"ok": False, "error": "No file found in the request"}), 400
+
+        print(f"[DEBUG] Received file: {file.filename}")
+        print(f"[DEBUG] File content type: {file.mimetype}")
+
+        # Validate file extension
+        if not allowed_file(file.filename):
+            return jsonify({"ok": False, "error": "Invalid file type or missing extension. Allowed types: png, jpg, jpeg, gif"}), 400
+
+        # Verify the file format
+        try:
+            img = Image.open(file)
+            img.verify()  # Verify the image format
+            img = Image.open(file)  # Reopen for further processing
+            img_format = img.format.lower()  # Get the actual format
+            print(f"[DEBUG] Verified file format: {img_format}")
+        except Exception as e:
+            print(f"[ERROR] Image verification failed: {e}")
+            return jsonify({"ok": False, "error": f"Invalid or corrupted image file: {e}"}), 400
+
+        # Dynamically handle missing or incorrect extensions
+        if '.' not in file.filename:
+            file.filename = f"uploaded_image.{img_format}"
+            print(f"[DEBUG] Added extension to file: {file.filename}")
+
+        # Save the resized image to a buffer
+        buffer = BytesIO()
+        try:
+            img.save(buffer, format=img.format)  # Preserve the image format
+            buffer.seek(0)
+            print("[DEBUG] Image saved to buffer successfully.")
+        except Exception as e:
+            print(f"[ERROR] Failed to save image to buffer: {e}")
+            return jsonify({"ok": False, "error": f"Failed to process image: {e}"}), 500
+
+        # Upload the image to Cloudinary
+        try:
+            result = cloudinary.uploader.upload(
+                buffer,
+                resource_type="image",  # Specify it's an image
+                folder="Home"  # Upload to the "Home" folder in Cloudinary
+            )
+            print(f"[DEBUG] Image uploaded to Cloudinary. URL: {result['secure_url']}")
+        except Exception as upload_error:
+            print(f"[ERROR] Cloudinary upload error: {upload_error}")
+            return jsonify({"ok": False, "error": f"Cloudinary upload failed: {upload_error}"}), 500
+
+        # Return the URL of the uploaded image
+        return jsonify({"ok": True, "imageUrl": result['secure_url'], "message": "Image uploaded successfully"}), 200
+
+    except Exception as e:
+        print(f"[ERROR] General error during image upload: {e}")
+        return jsonify({"ok": False, "error": str(e)}), 500
 
 # Get a quote
 @app.route('/api/quote', methods=['GET'])
@@ -157,4 +256,4 @@ def get_quote():
         return jsonify({"error": "Failed to fetch quote"}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)

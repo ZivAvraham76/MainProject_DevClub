@@ -16,7 +16,7 @@ const FallenDetails = () => {
     // Fetch the fallen details by ID from the backend
     const fetchFallen = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/fallens/${id}`);
+        const response = await axios.get(`http://127.0.0.1:5001/fallens/${id}`);
         setFallen(response.data);
         setIsLoading(false);
       } catch (err) {
