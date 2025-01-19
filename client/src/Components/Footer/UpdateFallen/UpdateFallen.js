@@ -110,7 +110,7 @@ const UpdateFallen = () => {
             ></textarea>
           </div>
           <div>
-            <label>Image URL:</label>
+            <label>Image:</label>
             <input
               type="text"
               name="img"

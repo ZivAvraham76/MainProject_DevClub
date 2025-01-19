@@ -1,0 +1,86 @@
+/* General Styling */
+.update-fallen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    font-family: 'Arial', sans-serif;
+    padding: 25px;
+  }
+  
+  .update-fallen h2 {
+    color: #2c3e50;
+    font-size: 26px;
+    margin-bottom: 25px;
+  }
+  
+  .update-fallen form {
+    width: 100%;
+  }
+  
+  .update-fallen form div {
+    margin-bottom: 20px;
+  }
+  
+  .update-fallen form label {
+    font-size: 14px;
+    color: #34495e;
+    margin-bottom: 5px;
+    display: block;
+    font-weight: bold;
+  }
+  
+  .update-fallen form input, 
+  .update-fallen form textarea {
+    width: calc(100% - 20px);
+    padding: 12px 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    font-size: 15px;
+    color: #2c3e50;
+    background-color: #f9f9fb;
+    box-sizing: border-box;
+  }
+  
+  .update-fallen form input:focus, 
+  .update-fallen form textarea:focus {
+    border-color: #2980b9;
+    outline: none;
+    box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+  }
+  
+  .update-fallen form button {
+    width: calc(100% - 20px);
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #818488;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+    .update-fallen form button:hover {
+    background-color: #3c3f43;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .success-message {
+    color: #2ecc71;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  

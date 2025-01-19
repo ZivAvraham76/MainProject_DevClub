@@ -13,6 +13,7 @@ import FallenDetails from './Components/FallenDetails/FallenDetails';
 import Quote from './Components/Quote/Quote';
 import axios from 'axios';
 
+
 function App() {
   const [fallens, setFallens] = useState([]); // State to hold all data from the API
   const [filteredFallens, setFilteredFallens] = useState([]); // State to hold filtered data
@@ -31,6 +32,7 @@ function App() {
 
   return (
     <Router>
+      <main>
       <div className="App">
         <Navbar />
         <Routes>
@@ -63,6 +65,7 @@ function App() {
           <Route path="/update-fallen/:id" element={<UpdateFallen />} />
         </Routes>
       </div>
+      </main>
     </Router>
   );
 }

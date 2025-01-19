@@ -1,63 +1,85 @@
+/* General Styling */
 .add-fallen {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    max-width: 600px;
-    margin: auto;
-    background-color: #f9f9fb;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif;
-    padding: 20px 10px;
-  }
-  
-  .add-fallen h2 {
-    text-align: center;
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .add-fallen form div {
-    margin-bottom: 15px;
-  }
-  
-  .add-fallen form label {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 5px;
-    display: block;
-    font-weight: bold;
-  }
-  
-  .add-fallen form input,textarea {
-    width: 80%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    color: #333;
-    background-color: #fff;
-    margin-top: 5px;
-    box-sizing: border-box;
-  }
-  
-    .add-fallen form button {
-    width: 80%;
-    padding: 12px;
-    border: none;
-    border-radius: 4px;
-    background-color: #818488;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 20px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  margin: 30px auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  font-family: 'Arial', sans-serif;
+  padding: 25px;
+}
 
-    .add-fallen form button:hover {
-    background-color: #3c3f43;
-  }
-  
+.add-fallen h2 {
+  color: #2c3e50;
+  font-size: 26px;
+  margin-bottom: 25px;
+}
 
+.add-fallen form {
+  width: 100%;
+}
 
-  
+.add-fallen form div {
+  margin-bottom: 20px;
+}
+
+.add-fallen form label {
+  font-size: 14px;
+  color: #34495e;
+  margin-bottom: 5px;
+  display: block;
+  font-weight: bold;
+}
+
+.add-fallen form input, 
+.add-fallen form textarea {
+  width: calc(100% - 20px);
+  padding: 12px 10px;
+  border: 1px solid #bdc3c7;
+  border-radius: 6px;
+  font-size: 15px;
+  color: #2c3e50;
+  background-color: #f9f9fb;
+  box-sizing: border-box;
+}
+
+.add-fallen form input:focus, 
+.add-fallen form textarea:focus {
+  border-color: #2980b9;
+  outline: none;
+  box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+}
+
+.add-fallen form button {
+  width: calc(100% - 20px);
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #818488;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+  .add-fallen form button:hover {
+  background-color: #3c3f43;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.success-message {
+  color: #2ecc71;
+  font-size: 14px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
