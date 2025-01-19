@@ -29,7 +29,7 @@ function Display({ fallens }) {
                     alt={fallen.name}
                     style={{
                       width: '100%',
-                      height: '200px',
+                      height: '100px',
                       objectFit: 'cover',
                       borderRadius: '10px',
                       marginBottom: '10px',
