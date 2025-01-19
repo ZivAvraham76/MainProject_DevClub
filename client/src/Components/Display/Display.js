@@ -27,28 +27,28 @@ function Display({ fallens }) {
                   <img
                     src={fallen.img} // Use the Cloudinary URL or any valid URL in the `img` field
                     alt={fallen.name}
-                    style={{
-                      width: '100%',
-                      height: '100px',
-                      objectFit: 'cover',
-                      borderRadius: '10px',
-                      marginBottom: '10px',
-                    }}
+                    // style={{
+                    //   width: '100%',
+                    //   height: '100px',
+                    //   objectFit: 'cover',
+                    //   borderRadius: '10px',
+                    //   marginBottom: '10px',
+                    // }}
                   />
                 ) : (
                   <div
-                    style={{
-                      width: '100%',
-                      height: '200px',
-                      backgroundColor: '#ccc',
-                      borderRadius: '10px',
-                      marginBottom: '10px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#666',
-                      fontSize: '14px',
-                    }}
+                    // style={{
+                    //   width: '100%',
+                    //   height: '200px',
+                    //   backgroundColor: '#ccc',
+                    //   borderRadius: '10px',
+                    //   marginBottom: '10px',
+                    //   display: 'flex',
+                    //   alignItems: 'center',
+                    //   justifyContent: 'center',
+                    //   color: '#666',
+                    //   fontSize: '14px',
+                    // }}
                   >
                     No Image Available
                   </div>

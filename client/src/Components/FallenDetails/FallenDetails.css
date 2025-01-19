@@ -2,6 +2,7 @@
     display: flex;
     align-items: center; 
     justify-content: center; 
+    padding-top: 120px;
   }
   
   .candle-container {
@@ -38,15 +39,14 @@
   }
   
   .fallen-details img {
-    width: 100%;
-    max-width: 300px;
-    border-radius: 10px;
-    margin: 1px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 1px auto;
-  display: block;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
+    width: 150px; 
+    height: 150px; 
+    object-fit: cover; 
+    border-radius: 10px; 
+    margin: 1px auto; 
+    display: block;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    margin-top: 20px;
   }
   
   .fallen-details h1 {
@@ -66,6 +66,7 @@
 
  .edit-button {
     padding: 8px 16px;
+    text-align: center;
     font-size: 14px;
     cursor: pointer; 
     cursor: pointer; 
