@@ -131,11 +131,11 @@ def edit_fallen_by_id(id):
         if request.is_json:  # JSON data
             data = request.get_json()
             print(f"[DEBUG] Received JSON data: {data}")
-            for key in ['name', 'location', 'date', 'story']:
+            for key in ['name', 'location', 'date', 'unit', 'story']:
                 if key in data and data[key]:  # Include only non-empty fields
                     update_data[key] = data[key]
         else:  # Multipart form-data
-            for key in ['name', 'location', 'date', 'story']:
+            for key in ['name', 'location', 'date', 'unit', 'story']:
                 value = request.form.get(key)
                 if value:  # Include only non-empty fields
                     update_data[key] = value

@@ -43,6 +43,7 @@ const FallenDetails = () => {
         <h1>{fallen.name}</h1>
         <p><strong>Location:</strong> {fallen.location}</p>
         <p><strong>Date:</strong> {fallen.date}</p>
+        {fallen.unit && <p><strong>Unit:</strong> {fallen.unit}</p>}
         <p><strong>Story:</strong> {fallen.story}</p>
         <img src={fallen.img} alt={fallen.name} />
         <Link to= {`/update-fallen/${fallen._id}`} className="edit-button">

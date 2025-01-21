@@ -9,6 +9,7 @@ const UpdateFallen = () => {
     name: '',
     location: '',
     date: '',
+    unit: ' ',
     story: '',
     img: '',
   });
@@ -52,6 +53,7 @@ const UpdateFallen = () => {
       formDataToSend.append('name', formData.name);
       formDataToSend.append('location', formData.location);
       formDataToSend.append('date', formData.date);
+      formDataToSend.append('unit', formData.unit);
       formDataToSend.append('story', formData.story);
   
       // Append the file (if provided)
@@ -113,6 +115,16 @@ const UpdateFallen = () => {
               name="date"
               placeholder="Date"
               value={formData.date}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Unit:</label>
+            <input
+              type="unit"
+              name="unit"
+              placeholder="Unit"
+              value={formData.unit}
               onChange={handleChange}
             />
           </div>

@@ -7,6 +7,7 @@
   background-color: #f4f6f8; 
   border-radius: 10px;
   padding: 20px;
+
 }
 
 .mySwiper {
@@ -19,7 +20,7 @@
   text-align: center;
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 1rem;
+  padding: 2rem;
   height: 170px;
   box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); 
   background-color: #ffffff;

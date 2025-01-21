@@ -6,6 +6,7 @@ function AddFallen() {
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [date, setDate] = useState('');
+  const [unit, setUnit] = useState('');
   const [story, setStory] = useState('');
   const [file, setFile] = useState(null); // Handle file uploads
   const [error, setError] = useState(null); // State to handle errors
@@ -29,6 +30,7 @@ function AddFallen() {
       formData.append('name', name);
       formData.append('location', location);
       formData.append('date', date);
+      formData.append('unit', unit);
       formData.append('story', story);
       formData.append('file', file); // Append the file
 
@@ -43,6 +45,7 @@ function AddFallen() {
       setName('');
       setLocation('');
       setDate('');
+      setUnit('');
       setStory('');
       setFile(null);
       setSuccessMessage('Fallen added successfully!');
@@ -88,6 +91,13 @@ function AddFallen() {
               value={date}
               onChange={(e) => setDate(e.target.value)}
               required
+            />
+          </div>
+          <div>
+            <label>Unit :</label>
+            <input
+              value={unit}
+              onChange={(e) => setUnit(e.target.value)}
             />
           </div>
           <div>
