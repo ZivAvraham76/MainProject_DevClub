@@ -13,7 +13,7 @@
   }
   
   .update-fallen h2 {
-    color: #2c3e50;
+    color: #243447;
     font-size: 26px;
     margin-bottom: 25px;
   }
@@ -58,7 +58,7 @@
     padding: 12px;
     border: none;
     border-radius: 4px;
-    background-color: #818488;
+    background-color: #243447;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
